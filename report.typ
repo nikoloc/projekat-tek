@@ -1,5 +1,6 @@
 #set text(
   size: 12pt,
+  lang: "sr",
 )
 
 #show link: it => underline(offset: 2pt, text(fill: blue, it))
@@ -11,125 +12,156 @@
 )
 
 #show figure: it => block(
-  below: 2em,
+  below: 1.8em,
   it,
 )
+
+#show figure.where(kind: table): it => {
+  v(1.8em)
+  it.caption
+  it.body
+}
 
 #set page(numbering: "1")
 #set heading(numbering: "1.")
 #set math.equation(numbering: "(1)")
 
-= Projekat iz Teorije Električnih Kola
+#outline()
 
-== Zadatak
-Zadatak je analizirati, sastaviti i izmeriti odziv sledećeg kola.
+= Пројекат из Теорије Електричних Кола
+
+== Задатак
+Задатак је анализирати, саставити и измерити одзив следећег кола.
 #figure(
   image("circuit.svg"),
-  caption: [Šema električnog kola],
+  caption: [Шема електричног кола],
 )
 
-Ovo kolo predstavlja *pojačavački invertujući filter niskih frekvencija*@TI. U daljem radu ćemo odrediti i demonstrirati na koji način
-se podešavanjem njegovih parametara mogu dobiti željeni efekti.
+Ово коло представља појачавачки инвертујући филтер ниских фреквенција@TI. У даљем раду ћемо одредити на који начин се подешавањем
+његових параметара може добити жељени ефекат.
 
-
-== Proračun
-Za potrebe proračuna podrazumevaćemo da je operacioni pojačavač idealan, kao na slici @fig-ideal-circuit.
-// ovde bismo jos mogli da kazemo nesto za to kako cemo razlike videti kada izmerimo stvari itd
+== Прорачун
+За потребе прорачуна подразумеваћемо да је операциони појачавач идеалан, као на слици @fig-ideal-circuit.
+// овде бисмо још могли да кажемо нешто за то како ћемо разлике видети када измеримо ствари итд
 
 #figure(
   image("ideal-circuit.svg"),
-  caption: [Šema idealnog električnog kola],
+  caption: [Шема идеалног електричног кола],
 ) <fig-ideal-circuit>
 
-Dato kolo ćemo analizirati za prostoperiodični ulazni naponski signal $V_"in"=A sin(omega t + phi)$. Kako je kolo relativno niske kompleksnosti rešićemo ga ručno, u kompleksnom domenu.
+Дато коло ћемо анализирати за простопериодични улазни напонски сигнал $V_"in"=A sin(omega t + phi)$. Како је коло релативно ниске комплексности решићемо га ручно, у комплексном домену.
 
-Želimo da izrazimo izlazni napon $underline(V_"out")$ preko ulaznog napona $underline(V_"in")$ i parametara kola $R_1$, $R_2$ i $C$.
+Желимо да изразимо излазни напон $underline(V_"out")$ преко улазног напона $underline(V_"in")$ и параметара кола $R_1$, $R_2$ и $C$.
 
-Zamenićemo paralelnu vezu otpornika $R_2$ i kondenzatora $C$ ekvivalentnom impendansom $Z$
+Заменићемо паралелну везу отпорника $R_2$ и кондензатора $C$ еквивалентном импедансом $Z$
 
 $ underline(Z) = (R_2 dot 1 / (j omega C)) / (R_2 + 1 / (j omega C)) = R_2 / (1 + j omega R_2 C) $
 
-kao na slici @fig-transformed-notated-circuit.
+као на слици @fig-transformed-notated-circuit.
 
 #figure(
   image("transformed-notated-circuit.svg"),
-  caption: [Transformisano električno kolo],
+  caption: [Трансформисано електрично коло],
 ) <fig-transformed-notated-circuit>
 
-Sada je struja kroz $R_1$ i $Z$ jednaka. Označimo je sa $I$. Primetimo li još da je čvor kola koji odgovara invertujućem terminalu
-idealnog operacionog pojačavača jednak nuli, možemo izračunati struju $I$ primenjujući KZN kao
+Сада је струја кроз $R_1$ и $Z$ једнака. Означимо је са $I$. Приметимо ли још да је чвор кола који одговара инвертујућем терминалу
+идеалног операционог појачавача једнак нули, можемо израчунати струју $I$ примењујући КЗН као
 
 $ underline(I) = underline(V_"in") / R_1 $
 
-Sada lako pronalazimo izlazni napon $V_"out"$ kao
+Сада лако проналазимо излазни напон $V_"out"$ као
 
-$ underline(V_"out") &= - underline(Z) underline(I) \
-&= - R_2 / (1 + j omega R_2 C) dot underline(V_"in") / R_1 \
+$ underline(V_"out") &= - underline(Z) underline(I)
+&= - R_2 / (1 + j omega R_2 C) dot underline(V_"in") / R_1
 &= - R_2 / R_1 dot 1 / (1 + j omega R_2 C) dot underline(V_"in") $
 
-Ovaj rezulat možemo predstaviti i u obliku prenosne funkcije $H(omega)$
+Овај резултат можемо представити и у облику преносне функције $H(omega)$
 
 $ underline(H)(omega) = underline(V_"out") / underline(V_"in") = - R_2 / R_1 dot 1 / (1 + j omega R_2 C) $
 
-Odnosno za efektivne vrednosti dobijamo
+Односно за ефективне вредности добијамо
 
 $ H(omega) = R_2 / R_1 dot 1 / sqrt(1 + (omega R_2 C)^2) $
 
-Grafik ove funkcije dat je na slici @fig-desmos, za vrednosti parametara $R_1 = 1$ k#sym.Omega, $R_2 = 20$ k#sym.Omega i $C = 3.9 "nF"$
-(ovaj izbor parametara biće jasniji u daljem tekstu). Na grafiku se vidi nagli pad između $10^3$ i $10^4 "Hz"$.
+График ове функције дат је на слици @fig-desmos, за вредности параметара $R_1 = 1$ k#sym.Omega, $R_2 = 20$ k#sym.Omega и $C = 3.9 "nF"$
+(овај избор параметара биће јаснији у даљем тексту). На графику се види нагли пад између $10^3$ и $10^4 "Hz"$.
+
+* TODO: овде прокоментарисати још инвертујућу карактеристику кола *
 
 #figure(
   image("desmos.png"),
-  caption: [Grafik zavisnosti napona od frekvencije u logaritamskoj skali za $R_1 = 1$ k#sym.Omega, $R_2 = 20$
-  k#sym.Omega i $C = 3.9 "nF"$],
+  caption: [График зависности напона од фреквенције у логаритамској скали за $R_1 = 1$ k#sym.Omega, $R_2 = 20$
+  k#sym.Omega и $C = 3.9 "nF"$],
 ) <fig-desmos>
 
-Primetimo da u izrazu za $H(omega)$ figuriše odnos $R_2 / R_1$, odnosno što je veći ovaj odnos to je i pojačanje veće. Drugi član
-u ovom izrazu 
+Приметимо да у изразу за $H(omega)$ фигурише однос $R_2 / R_1$, односно што је већи овај однос то је и појачање веће. Други члан
+у овом изразу
 
 $ 1 / sqrt(1 + (omega R_2 C)^2) $
 
-možemo učiniti vrlo slabo zavisnim od $omega$ za male vrednost $omega$ uzimajući kondenzator $C$ vrednosti reda nF i otpornika
-$R_2$ reda k#sym.Omega, jer je onda njihov proizvod reda $"~"10^(-6)$.
+можемо учинити врло слабо зависним од $omega$ за мале вредности $omega$ узимајући кондензатор $C$ вредности реда nF и отпорник
+$R_2$ реда k#sym.Omega, јер је онда њихов производ реда $"~"10^(-6)$.
 
-Ovime smo pokazali da se pogodnim izborom parametara u kolu, može diktirati pojačanje i istovremeno postići željeni efekat filtriranja 
-niskih frekvencija.
+Овиме смо показали да се погодним избором параметара у колу може диктирати појачање и истовремено постићи жељени ефекат филтрирања
+ниских фреквенција.
 
-Definišemo graničnu frekvenciju filtera $f_"cutoff"$ kao onu frekvenciju pri kojoj je pojačanje snage signala jednako polovini
-maksimalnog pojačanja, a kako je snaga proporcionalna kvadratu napona, to je:
+Дефинишемо граничну фреквенцију филтера $f_"cutoff"$ као ону фреквенцију при којој је појачање снаге сигнала једнако половини
+максималног појачања, а како је снага пропорционална квадрату напона, то је:
 
 $ H(2 pi f_"cutoff") &= 1/sqrt(2)H(0) $
 $ 1 / sqrt(1 + (2 pi f_"cutoff" R_2 C)^2) &= 1 / sqrt(2) $
 $ => f_"cutoff" = 1 / (2 pi R_2 C) $
 
-Za prethodno pomenute vrednosti $R_1 = 1$ k#sym.Omega, $R_2 = 20$ k#sym.Omega i $C = 3.9$ nF dobija se granična frekvencija
+За претходно поменуте вредности $R_1 = 1$ k#sym.Omega, $R_2 = 20$ k#sym.Omega и $C = 3.9$ nF добија се гранична фреквенција
 
 $ f_"cutoff" = 1 / (2 pi dot 20 "k"#sym.Omega dot 3.9 "nF") approx 2 "kHz" $
 
-što odgovara očitavanju sa grafika @fig-desmos.
+што одговара очитавању са графика @fig-desmos.
 
-== Simulacija
+== Симулација
 
-Za simulaciju kola korišćen je program LTSpice@LTSpice. Uvezen je model TL072@TL072
+За симулацију кола коришћен је програм LTSpice@LTSpice. Увезен је модел TL072 са странице произвођача@TL072.
 
 #figure(
   image("lt-spice-circuit.png"),
-  caption: [Šema električnog kola],
+  caption: [Шема електричног кола],
 )
 
-neki tekst
+* TODO: прокоментарисати резултате *
 
 #figure(
   image("lt-spice-graph.png"),
-  caption: [Pojačanje dobijeno simulacijom],
+  caption: [Појачање добијено симулацијом],
 )
 
 #figure(
   image("lt-spice-cutoff.png"),
-  caption: [Pojačanje dobijeno simulacijom],
+  caption: [TODO],
 )
 
+== Мерење
+
+* TODO: у договору са професором направити одговарајуће табеле за резултате, приложити слике мерења и прокоментарисати резултате *
+
+#figure(
+  table(
+    columns: (auto, auto),
+    inset: 10pt,
+    align: horizon,
+    table.header(
+      [Volume], [Parameters],
+    ),
+    $ pi h (D^2 - d^2) / 4 $,
+    [
+      $h$: height
+      $D$: outer radius
+      $d$: inner radius
+    ],
+    $ sqrt(2) / 12 a^3 $,
+    [$a$: edge length]
+  ),
+  caption: "Пример табеле",
+)
 #pagebreak()
 
-
-#bibliography("reference.bib", style: "ieee", title: "Reference")
+#bibliography("reference.bib", style: "ieee", title: "Референце")
